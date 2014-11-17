@@ -19,7 +19,6 @@ use AerialShip\LightSaml\Security\X509Certificate;
 
 abstract class Message implements GetXmlInterface, GetSignedXmlInterface, LoadFromXmlInterface
 {
-    use XmlRequiredAttributesTrait;
     use XmlChildrenLoaderTrait;
 
 
@@ -337,4 +336,7 @@ abstract class Message implements GetXmlInterface, GetSignedXmlInterface, LoadFr
         $this->setSignature($signature);
     }
 
+    public function checkRequiredAttributes(\DOMElement $element, array $attributes) {
+      XmlRequiredAttributesTrait::checkRequiredAttributes($element, $attributes);
+    }
 } 

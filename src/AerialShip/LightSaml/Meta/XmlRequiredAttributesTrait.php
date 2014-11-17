@@ -5,9 +5,9 @@ namespace AerialShip\LightSaml\Meta;
 use AerialShip\LightSaml\Error\InvalidXmlException;
 
 
-trait XmlRequiredAttributesTrait
+abstract class XmlRequiredAttributesTrait
 {
-    function checkRequiredAttributes(\DOMElement $element, array $attributes) {
+    public static function checkRequiredAttributes(\DOMElement $element, array $attributes) {
         foreach ($attributes as $name) {
             if (!$element->hasAttribute($name)) {
                 throw new InvalidXmlException('XML Element '.$element->localName.' missing required attribute '.$name);

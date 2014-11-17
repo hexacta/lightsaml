@@ -3,9 +3,9 @@
 namespace AerialShip\LightSaml\Meta;
 
 
-trait XmlChildrenLoaderTrait
+abstract class XmlChildrenLoaderTrait
 {
-    protected function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
+    public static function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
         for ($node = $xml->firstChild; $node !== NULL; $node = $node->nextSibling) {
             if ($node instanceof \DOMElement) {
                 $elementCallback($node);
@@ -13,10 +13,10 @@ trait XmlChildrenLoaderTrait
         }
     }
 
-    protected function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback) {
+    public static function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback, $currentInstance) {
         $result = array();
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$result, $node2ClassMap, $itemCallback) {
-            $recognized = $this->doMapping($node, $node2ClassMap, $itemCallback);
+        $currentInstance->iterateChildrenElements($xml, function(\DOMElement $node) use (&$result, $node2ClassMap, $itemCallback) {
+            $recognized = $currentInstance->doMapping($node, $node2ClassMap, $itemCallback);
             if (!$recognized) {
                 $result[] = $node;
             }
@@ -31,15 +31,15 @@ trait XmlChildrenLoaderTrait
      * @param callable $itemCallback
      * @return \DOMElement|null
      */
-    private function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
+    public static function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback, $currentInstance) {
         $recognized = false;
         foreach ($node2ClassMap as $meta) {
             if (!$meta) continue;
-            $this->getNodeNameAndNamespaceFromMeta($meta, $nodeName, $nodeNS);
+            $currentInstance->getNodeNameAndNamespaceFromMeta($meta, $nodeName, $nodeNS);
             if ($nodeName == $node->localName
                 && (!$nodeNS || $nodeNS == $node->namespaceURI)
             ) {
-                $obj = $this->getObjectFromMetaClass($meta, $node);
+                $obj = $currentInstance->getObjectFromMetaClass($meta, $node);
                 $itemCallback($obj);
                 $recognized = true;
                 break;
@@ -49,7 +49,7 @@ trait XmlChildrenLoaderTrait
     }
 
 
-    private function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
+    public static function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
         if (!is_array($meta)) {
             throw new \InvalidArgumentException('Meta must be array');
         }
@@ -75,7 +75,7 @@ trait XmlChildrenLoaderTrait
      * @throws \InvalidArgumentException
      * @return LoadFromXmlInterface
      */
-    private function getObjectFromMetaClass($meta, \DOMElement $node) {
+    public static function getObjectFromMetaClass($meta, \DOMElement $node) {
         $class = @$meta['class'];
         if (!$class) {
             throw new \InvalidArgumentException('Missing class meta');

@@ -17,8 +17,6 @@ use AerialShip\LightSaml\Protocol;
 
 class Assertion implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlRequiredAttributesTrait;
-
 
     /** @var string */
     protected $id;
@@ -55,7 +53,7 @@ class Assertion implements GetXmlInterface, LoadFromXmlInterface
 
 
 
-
+    
 
     /**
      * @param string $id
@@ -400,4 +398,7 @@ class Assertion implements GetXmlInterface, LoadFromXmlInterface
         }
     }
 
+    public function checkRequiredAttributes(\DOMElement $element, array $attributes) {
+      XmlRequiredAttributesTrait::checkRequiredAttributes($element, $attributes);
+    }
 }

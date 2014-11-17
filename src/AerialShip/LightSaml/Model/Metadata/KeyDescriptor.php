@@ -13,7 +13,6 @@ use AerialShip\LightSaml\Security\X509Certificate;
 
 class KeyDescriptor implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlRequiredAttributesTrait;
 
 
     const USE_SIGNING = 'signing';
@@ -122,4 +121,7 @@ class KeyDescriptor implements GetXmlInterface, LoadFromXmlInterface
         $this->certificate->setData($certificateData);
     }
 
+    public function checkRequiredAttributes(\DOMElement $element, array $attributes) {
+      XmlRequiredAttributesTrait::checkRequiredAttributes($element, $attributes);
+    }
 }

@@ -13,8 +13,6 @@ use AerialShip\LightSaml\Protocol;
 
 class Subject implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
-
 
     /** @var NameID */
     protected $nameID;
@@ -23,7 +21,7 @@ class Subject implements GetXmlInterface, LoadFromXmlInterface
     protected $subjectConfirmations = array();
 
 
-
+    
 
     /**
      * @param NameID $nameID
@@ -131,5 +129,24 @@ class Subject implements GetXmlInterface, LoadFromXmlInterface
             throw new \LogicException('Unexpected type '.get_class($object));
         }
     }
-
+    
+    public function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
+      XmlChildrenLoaderTrait::iterateChildrenElements($xml, $elementCallback);
+    }
+    
+    public function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback) {
+      XmlChildrenLoaderTrait::loadXmlChildren($xml, $node2ClassMap, $itemCallback, $this);
+    }
+    
+    public function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
+      XmlChildrenLoaderTrait::doMapping($xml, $node2ClassMap, $itemCallback, $this);
+    }
+    
+    public function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
+      XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS);
+    }
+    
+    public function getObjectFromMetaClass($meta, \DOMElement $node) {
+      XmlChildrenLoaderTrait::getObjectFromMetaClass($meta, $node);
+    }
 }

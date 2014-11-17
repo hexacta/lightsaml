@@ -13,7 +13,6 @@ use AerialShip\LightSaml\Protocol;
 
 class AuthnStatement implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlRequiredAttributesTrait;
 
 
     /** @var int */
@@ -133,5 +132,8 @@ class AuthnStatement implements GetXmlInterface, LoadFromXmlInterface
         }
     }
 
+    public function checkRequiredAttributes(\DOMElement $element, array $attributes) {
+      XmlRequiredAttributesTrait::checkRequiredAttributes($element, $attributes);
+    }
 
 }

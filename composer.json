@@ -1,5 +1,5 @@
 {
-    "name": "aerialship/lightsaml",
+    "name": "pmaglione/lightsaml",
     "license": "MIT",
     "type": "project",
     "description": "Light SAML2 php library",
