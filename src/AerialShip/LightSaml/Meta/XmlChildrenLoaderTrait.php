@@ -15,7 +15,7 @@ abstract class XmlChildrenLoaderTrait
 
     public static function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback, $currentInstance) {
         $result = array();
-        $currentInstance->iterateChildrenElements($xml, function(\DOMElement $node) use (&$result, $node2ClassMap, $itemCallback) {
+        $currentInstance->iterateChildrenElements($xml, function(\DOMElement $node) use (&$result, $node2ClassMap, $itemCallback, $currentInstance) {
             $recognized = $currentInstance->doMapping($node, $node2ClassMap, $itemCallback);
             if (!$recognized) {
                 $result[] = $node;
