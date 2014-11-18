@@ -19,7 +19,6 @@ use AerialShip\LightSaml\Security\X509Certificate;
 
 abstract class Message implements GetXmlInterface, GetSignedXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
 
 
     /** @var string */
@@ -338,5 +337,25 @@ abstract class Message implements GetXmlInterface, GetSignedXmlInterface, LoadFr
 
     public function checkRequiredAttributes(\DOMElement $element, array $attributes) {
       XmlRequiredAttributesTrait::checkRequiredAttributes($element, $attributes);
+    }
+    
+    public function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
+      XmlChildrenLoaderTrait::iterateChildrenElements($xml, $elementCallback);
+    }
+    
+    public function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback) {
+      XmlChildrenLoaderTrait::loadXmlChildren($xml, $node2ClassMap, $itemCallback, $this);
+    }
+    
+    public function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
+      XmlChildrenLoaderTrait::doMapping($xml, $node2ClassMap, $itemCallback, $this);
+    }
+    
+    public function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
+      XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS);
+    }
+    
+    public function getObjectFromMetaClass($meta, \DOMElement $node) {
+      XmlChildrenLoaderTrait::getObjectFromMetaClass($meta, $node);
     }
 } 

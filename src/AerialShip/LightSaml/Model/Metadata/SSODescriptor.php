@@ -17,7 +17,6 @@ use AerialShip\LightSaml\Protocol;
 
 abstract class SSODescriptor implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
 
 
     /** @var AbstractService[] */
@@ -274,5 +273,25 @@ abstract class SSODescriptor implements GetXmlInterface, LoadFromXmlInterface
                 }
             }
         );
+    }
+    
+    public function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
+      XmlChildrenLoaderTrait::iterateChildrenElements($xml, $elementCallback);
+    }
+    
+    public function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback) {
+      XmlChildrenLoaderTrait::loadXmlChildren($xml, $node2ClassMap, $itemCallback, $this);
+    }
+    
+    public function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
+      XmlChildrenLoaderTrait::doMapping($xml, $node2ClassMap, $itemCallback, $this);
+    }
+    
+    public function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
+      XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS);
+    }
+    
+    public function getObjectFromMetaClass($meta, \DOMElement $node) {
+      XmlChildrenLoaderTrait::getObjectFromMetaClass($meta, $node);
     }
 }
