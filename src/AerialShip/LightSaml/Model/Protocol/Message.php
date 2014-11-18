@@ -352,7 +352,7 @@ abstract class Message implements GetXmlInterface, GetSignedXmlInterface, LoadFr
     }
     
     public function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
-      XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS);
+      XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, $nodeName, $nodeNS);
     }
     
     public function getObjectFromMetaClass($meta, \DOMElement $node) {

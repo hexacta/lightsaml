@@ -192,7 +192,7 @@ class EntityDescriptor implements GetXmlInterface, LoadFromXmlInterface
     }
     
     public function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
-      XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS);
+      XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, $nodeName, $nodeNS);
     }
     
     public function getObjectFromMetaClass($meta, \DOMElement $node) {
