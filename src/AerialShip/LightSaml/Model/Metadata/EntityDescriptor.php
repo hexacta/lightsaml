@@ -180,23 +180,23 @@ class EntityDescriptor implements GetXmlInterface, LoadFromXmlInterface
     }
 
     public function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
-      XmlChildrenLoaderTrait::iterateChildrenElements($xml, $elementCallback);
+      return XmlChildrenLoaderTrait::iterateChildrenElements($xml, $elementCallback);
     }
     
     public function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback) {
-      XmlChildrenLoaderTrait::loadXmlChildren($xml, $node2ClassMap, $itemCallback, $this);
+      return XmlChildrenLoaderTrait::loadXmlChildren($xml, $node2ClassMap, $itemCallback, $this);
     }
     
     public function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
-      XmlChildrenLoaderTrait::doMapping($xml, $node2ClassMap, $itemCallback, $this);
+      return XmlChildrenLoaderTrait::doMapping($node, $node2ClassMap, $itemCallback, $this);
     }
     
     public function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
-      XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, $nodeName, $nodeNS);
+      return XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, $nodeName, $nodeNS);
     }
     
     public function getObjectFromMetaClass($meta, \DOMElement $node) {
-      XmlChildrenLoaderTrait::getObjectFromMetaClass($meta, $node);
+      return XmlChildrenLoaderTrait::getObjectFromMetaClass($meta, $node);
     }
 
 }
