@@ -160,7 +160,7 @@ class EntityDescriptor implements GetXmlInterface, LoadFromXmlInterface
             throw new InvalidXmlException('Missing entityID attribute');
         }
         $this->setEntityID($xml->getAttribute('entityID'));
-
+        $current = $this;
         $this->loadXmlChildren(
             $xml,
             array(
@@ -173,8 +173,8 @@ class EntityDescriptor implements GetXmlInterface, LoadFromXmlInterface
                     'class' => '\AerialShip\LightSaml\Model\Metadata\IdpSsoDescriptor'
                 ),
             ),
-            function(LoadFromXmlInterface $obj) {
-                $this->addItem($obj);
+            function(LoadFromXmlInterface $obj) use ($current) {
+                $current->addItem($obj);
             }
         );
     }

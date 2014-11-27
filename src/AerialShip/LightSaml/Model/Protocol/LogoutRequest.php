@@ -146,16 +146,16 @@ class LogoutRequest extends AbstractRequest
         if ($xml->hasAttribute('NotOnOrAfter')) {
             $this->setNotOnOrAfter($xml->getAttribute('NotOnOrAfter'));
         }
-
+        $current = $this;
         $signatureNode = null;
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$signatureNode) {
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$signatureNode, $current) {
             if ($node->localName == 'NameID') {
                 $nameID = new NameID();
                 $nameID->loadFromXml($node);
-                $this->setNameID($nameID);
+                $current->setNameID($nameID);
             }
             if ($node->localName == 'SessionIndex') {
-                $this->setSessionIndex($node->textContent);
+                $current->setSessionIndex($node->textContent);
             }
 
             if ($node->localName == 'Signature' && $node->namespaceURI == Protocol::NS_XMLDSIG) {

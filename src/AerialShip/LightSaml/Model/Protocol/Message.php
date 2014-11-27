@@ -318,10 +318,10 @@ abstract class Message implements GetXmlInterface, GetSignedXmlInterface, LoadFr
         $this->setIssueInstant(Helper::parseSAMLTime($xml->getAttribute('IssueInstant')));
         $this->setDestination($xml->getAttribute('Destination'));
 
-
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) {
+        $current = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use ($current){
             if ($node->localName == 'Issuer' && $node->namespaceURI == Protocol::NS_ASSERTION) {
-                $this->setIssuer($node->textContent);
+                $current->setIssuer($node->textContent);
             }
         });
     }

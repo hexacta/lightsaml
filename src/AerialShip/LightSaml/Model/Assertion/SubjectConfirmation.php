@@ -120,7 +120,7 @@ class SubjectConfirmation implements GetXmlInterface, LoadFromXmlInterface
         }
         $this->setMethod($xml->getAttribute('Method'));
 
-
+        $current = $this;
         $this->nameID = null;
         $this->loadXmlChildren(
             $xml,
@@ -134,14 +134,14 @@ class SubjectConfirmation implements GetXmlInterface, LoadFromXmlInterface
                     'class' => '\AerialShip\LightSaml\Model\Assertion\SubjectConfirmationData'
                 )
             ),
-            function ($obj) {
+            function ($obj) use ($current){
                 if ($obj instanceof NameID) {
-                    if ($this->getNameID()) {
+                    if ($current->getNameID()) {
                         throw new InvalidXmlException('More than one NameID in SubjectConfirmation');
                     }
-                    $this->setNameID($obj);
+                    $current->setNameID($obj);
                 } else if ($obj instanceof SubjectConfirmationData) {
-                    $this->setData($obj);
+                    $current->setData($obj);
                 } else {
                     throw new \LogicException('Unexpected type '.get_class($obj));
                 }
@@ -149,7 +149,7 @@ class SubjectConfirmation implements GetXmlInterface, LoadFromXmlInterface
         );
     }
 
-        public function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
+    public function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
       return XmlChildrenLoaderTrait::iterateChildrenElements($xml, $elementCallback);
     }
     

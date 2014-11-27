@@ -11,10 +11,10 @@ use AerialShip\LightSaml\Meta\XmlChildrenLoaderTrait;
 use AerialShip\LightSaml\Model\XmlDSig\Signature;
 use AerialShip\LightSaml\Model\XmlDSig\SignatureCreator;
 use AerialShip\LightSaml\Protocol;
+use AerialShip\LightSaml\Meta\XmlChildrenLoaderTrait;
 
 class EntitiesDescriptor implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
 
 
     /** @var  int */
@@ -270,7 +270,7 @@ class EntitiesDescriptor implements GetXmlInterface, LoadFromXmlInterface
         if ($xml->hasAttribute('Name')) {
             $this->setName($xml->getAttribute('Name'));
         }
-
+        $current = $this;
         $this->items = array();
         $this->loadXmlChildren(
             $xml,
@@ -284,14 +284,34 @@ class EntitiesDescriptor implements GetXmlInterface, LoadFromXmlInterface
                     'class' => '\AerialShip\LightSaml\Model\Metadata\EntityDescriptor'
                 ),
             ),
-            function(LoadFromXmlInterface $obj) {
-                $this->addItem($obj);
+            function(LoadFromXmlInterface $obj) use ($current) {
+                $current->addItem($obj);
             }
         );
 
         if (empty($this->items)) {
             throw new InvalidXmlException('Expected at least one of EntityDescriptor or EntitiesDescriptor');
         }
+    }
+    
+    public function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
+      return XmlChildrenLoaderTrait::iterateChildrenElements($xml, $elementCallback);
+    }
+    
+    public function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback) {
+      return XmlChildrenLoaderTrait::loadXmlChildren($xml, $node2ClassMap, $itemCallback, $this);
+    }
+    
+    public function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
+      return XmlChildrenLoaderTrait::doMapping($node, $node2ClassMap, $itemCallback, $this);
+    }
+    
+    public function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
+      return XmlChildrenLoaderTrait::getNodeNameAndNamespaceFromMeta($meta, $nodeName, $nodeNS);
+    }
+    
+    public function getObjectFromMetaClass($meta, \DOMElement $node) {
+      return XmlChildrenLoaderTrait::getObjectFromMetaClass($meta, $node);
     }
 
 } 

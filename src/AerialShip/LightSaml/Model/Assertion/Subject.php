@@ -93,7 +93,7 @@ class Subject implements GetXmlInterface, LoadFromXmlInterface
 
         $this->nameID = null;
         $this->subjectConfirmations = array();
-
+        $current = $this;
         $this->loadXmlChildren(
             $xml,
             array(
@@ -106,8 +106,8 @@ class Subject implements GetXmlInterface, LoadFromXmlInterface
                     'class' => '\AerialShip\LightSaml\Model\Assertion\SubjectConfirmation'
                 )
             ),
-            function ($object) {
-                $this->loadXmlCallback($object);
+            function ($object) use ($current){
+                $current->loadXmlCallback($object);
             }
         );
         if (!$this->getSubjectConfirmations()) {
@@ -116,7 +116,7 @@ class Subject implements GetXmlInterface, LoadFromXmlInterface
     }
 
 
-    protected function loadXmlCallback($object)
+    public function loadXmlCallback($object)
     {
         if ($object instanceof NameID) {
             if ($this->getNameID()) {

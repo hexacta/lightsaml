@@ -96,11 +96,11 @@ class StatusCode implements GetXmlInterface, LoadFromXmlInterface
             throw new InvalidXmlException('Required attribute StatusCode Value missing');
         }
         $this->setValue($xml->getAttribute('Value'));
-
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) {
+        $current = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use ($current) {
             if ($node->localName == 'StatusCode' && $node->namespaceURI == Protocol::SAML2) {
-                $this->setChild(new StatusCode());
-                $this->getChild()->loadFromXml($node);
+                $current->setChild(new StatusCode());
+                $current->getChild()->loadFromXml($node);
             } else {
                 throw new InvalidXmlException('Unknown element '.$node->localName);
             }

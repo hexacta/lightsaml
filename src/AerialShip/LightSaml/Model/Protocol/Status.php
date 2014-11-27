@@ -110,14 +110,14 @@ class Status implements GetXmlInterface, LoadFromXmlInterface
         if ($xml->localName != 'Status' || $xml->namespaceURI != Protocol::SAML2) {
             throw new InvalidXmlException('Expected Status element but got '.$xml->localName);
         }
-
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) {
+        $current = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use ($current) {
             if ($node->localName == 'StatusCode' && $node->namespaceURI == Protocol::SAML2) {
                 $statusCode = new StatusCode();
                 $statusCode->loadFromXml($node);
-                $this->setStatusCode($statusCode);
+                $current->setStatusCode($statusCode);
             } else if ($node->localName == 'StatusMessage' && $node->namespaceURI == Protocol::SAML2) {
-                $this->setMessage($node->textContent);
+                $current->setMessage($node->textContent);
             }
         });
 
