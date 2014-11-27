@@ -74,7 +74,7 @@ class Response extends StatusResponse
     function loadFromXml(\DOMElement $xml) {
         parent::loadFromXml($xml);
         $current = $this;
-        $this->iterateChildrenElements($xml, function(\DOMElement $node, $current) {
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use ($current) {
             if ($node->localName == 'Assertion' && $node->namespaceURI == Protocol::NS_ASSERTION) {
                 $assertion = new Assertion();
                 $assertion->loadFromXml($node);
